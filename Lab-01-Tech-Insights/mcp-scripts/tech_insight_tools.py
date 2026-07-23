@@ -111,61 +111,64 @@ def _derive_tracks(source: dict[str, Any]) -> list[str]:
             if isinstance(k, str) and k.strip():
                 keys.append(k.strip().lower())
 
-    # Coarse buckets from keywords (EV themes).
+    # Coarse buckets from keywords (NBA themes).
     joined = " ".join(keys)
     tracks: list[str] = []
     if any(
         x in joined
         for x in [
-            "battery",
-            "电池",
-            "charging",
-            "充电",
-            "solid-state",
-            "固态",
-            "autonomous",
-            "自动驾驶",
-            "adas",
-            "智能驾驶",
+            "trade",
+            "交易",
+            "free agent",
+            "自由球员",
+            "signing",
+            "签约",
+            "contract",
+            "合同",
+            "salary",
+            "薪资",
         ]
     ):
-        tracks.append("tech_battery")
+        tracks.append("trade_free_agency")
     if any(
         x in joined
         for x in [
-            "sales",
-            "销量",
-            "delivery",
-            "交付",
-            "policy",
-            "政策",
-            "subsidy",
-            "补贴",
-            "tariff",
-            "关税",
+            "draft",
+            "选秀",
+            "rookie",
+            "新秀",
+            "summer league",
+            "夏季联赛",
+            "prospect",
+            "潜力新星",
         ]
     ):
-        tracks.append("market_policy")
+        tracks.append("draft_prospects")
     if any(
-        x in joined for x in ["launch", "新车", "model", "车型", "release", "发布"]
+        x in joined
+        for x in ["playoff", "季后赛", "championship", "总冠军", "finals", "总决赛"]
     ):
-        tracks.append("new_model")
+        tracks.append("playoffs_finals")
+    if any(
+        x in joined for x in ["injury", "伤病", "recovery", "康复", "comeback", "复出"]
+    ):
+        tracks.append("injury_recovery")
     if not tracks:
         # fallback by domain / platform
         platform = str(source.get("platform") or "").lower()
         dom = _domain(str(source.get("url") or ""))
         if any(
             x in dom or x in platform
-            for x in ["cnevpost", "carnewschina", "pandaily"]
+            for x in ["espn", "yahoo", "cbssports", "si", "theringer"]
         ):
-            tracks.append("china_ev")
+            tracks.append("general_nba")
         elif any(
             x in dom or x in platform
-            for x in ["electrek", "insideevs", "cleantechnica", "thedriven", "chargedevs"]
+            for x in ["bleacherreport", "slamonline", "hoopsrumors"]
         ):
-            tracks.append("global_ev")
+            tracks.append("nba_rumors")
         else:
-            tracks.append("auto_news")
+            tracks.append("nba_news")
     return sorted(set(tracks))
 
 
@@ -960,21 +963,21 @@ def tech_insight_or_fallback(
         platforms_val = coverage.get("platforms")
         platforms = platforms_val if isinstance(platforms_val, list) else []
 
-        what_changed = "".join(
+        what_changed = “”.join(
             [
-                f"过去 24 小时出现了与“{title}”相关的 EV 行业动态。",
-                f"来源覆盖 {len(platforms)} 个源" if platforms else "",
+                f”过去 24 小时出现了与”{title}”相关的 NBA 篮球动态。”,
+                f”来源覆盖 {len(platforms)} 个源” if platforms else “”,
             ]
         ).strip()
-        why = "趋势" if category == "trend" else "重要更新"
-        why_it_matters = f"这是一条 EV 市场{why}信号，可能影响车企竞争格局、产品策略或采购/投资决策。"
-        who = ["车企与产品团队", "供应链与电池厂商", "投资者与分析师"]
+        why = “趋势” if category == “trend” else “重要更新”
+        why_it_matters = f”这是一条 NBA 篮球{why}信号，可能影响球队竞争格局、球员市场或球迷关注度。”
+        who = [“球队管理层与教练组”, “球员经纪人与球探”, “球迷与媒体分析师”]
         if companies:
-            who.append("关注相关车企动态的人群")
+            who.append(“关注相关球队动态的人群”)
         next_actions = [
-            "查看引用链接确认原文",
-            "评估对自身产品/市场策略的影响",
-            "如涉及竞品新车型或降价，跟进竞争分析",
+            “查看引用链接确认原文”,
+            “评估对球队实力/球员市场的影响”,
+            “如涉及交易传闻或自由球员签约，跟进官方消息确认”,
         ]
         risk_notes = []
         insights.append(
@@ -1055,7 +1058,7 @@ def tech_render_report_or_fallback(
         if score:
             lines.append(f"- 热度：{score}")
         if companies:
-            lines.append(f"- 涉及车企：{', '.join([str(x) for x in companies[:6]])}")
+            lines.append(f"- 涉及球队：{', '.join([str(x) for x in companies[:6]])}")
         if platforms:
             lines.append(f"- 来源：{', '.join([str(x) for x in platforms[:8]])}")
         what_changed = str(insight.get("what_changed") or "").strip()
@@ -1091,7 +1094,7 @@ def tech_render_report_or_fallback(
             company_radar.setdefault(c2, []).append(h)
 
     lines: list[str] = []
-    lines.append("# EV 市场洞察报告（兜底版）\n")
+    lines.append("# NBA 篮球新闻洞察报告（兜底版）\n")
     lines.append(f"- 生成时间：{_to_iso(_utc_now())}")
     lines.append("- 时间窗：过去 24 小时")
     lines.append("")
@@ -1110,9 +1113,9 @@ def tech_render_report_or_fallback(
         for h in singles:
             lines.append(_render_hotspot(h))
 
-    lines.append("## 车企竞争雷达\n")
+    lines.append("## 球队竞争雷达\n")
     if not company_radar:
-        lines.append("（暂无可归类到车企的条目）\n")
+        lines.append("（暂无可归类到球队的条目）\n")
     else:
         for c, hs in sorted(company_radar.items(), key=lambda kv: (-len(kv[1]), kv[0])):
             lines.append(f"### {c}")

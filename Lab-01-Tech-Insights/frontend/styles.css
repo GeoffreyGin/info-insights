@@ -1,3 +1,4 @@
+/* ===== 浅色模式（默认） ===== */
 :root {
   --bg: #f6f5f2;
   --panel: #ffffff;
@@ -5,6 +6,28 @@
   --text: #1b1a19;
   --muted: #6b6760;
   --accent: #3d4a57;
+  --code-bg: #f1efe9;
+  --topbar-bg: rgba(246, 245, 242, 0.8);
+  --footer-bg: rgba(255, 255, 255, 0.7);
+  --shadow: rgba(0, 0, 0, 0.06);
+  --hr-color: rgba(0, 0, 0, 0.08);
+  --link-color: #3d4a57;
+}
+
+/* ===== 深色模式 ===== */
+[data-theme="dark"] {
+  --bg: #1a1a2e;
+  --panel: #242438;
+  --border: #383850;
+  --text: #e4e4e8;
+  --muted: #9999aa;
+  --accent: #6eb5ff;
+  --code-bg: #2a2a3e;
+  --topbar-bg: rgba(26, 26, 46, 0.85);
+  --footer-bg: rgba(36, 36, 56, 0.85);
+  --shadow: rgba(0, 0, 0, 0.25);
+  --hr-color: rgba(255, 255, 255, 0.08);
+  --link-color: #6eb5ff;
 }
 
 * {
@@ -30,6 +53,7 @@ body {
     "Segoe UI Emoji";
   color: var(--text);
   background: var(--bg);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -38,13 +62,46 @@ body {
   padding: 16px;
 }
 
+/* ===== 主题切换按钮 ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  color: var(--text);
+  background: var(--panel);
+}
+
+.theme-toggle:hover {
+  background: var(--code-bg);
+  transform: scale(1.08);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle__icon {
+  display: inline-block;
+  line-height: 1;
+}
+
 .topbar {
   position: sticky;
   top: 0;
   backdrop-filter: blur(6px);
-  background: rgba(246, 245, 242, 0.8);
+  -webkit-backdrop-filter: blur(6px);
+  background: var(--topbar-bg);
   border-bottom: 1px solid var(--border);
   z-index: 10;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .topbar__inner {
@@ -78,6 +135,7 @@ body {
   border-radius: 16px;
   border: 1px solid var(--border);
   background: var(--panel);
+  box-shadow: 0 1px 4px var(--shadow);
 }
 
 .markdown-body {
@@ -86,16 +144,16 @@ body {
 }
 
 .markdown-body a {
-  color: var(--accent);
+  color: var(--link-color);
 }
 
 .markdown-body hr {
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: var(--hr-color);
 }
 
 .markdown-body code,
 .markdown-body pre {
-  background: #f1efe9;
+  background: var(--code-bg);
 }
 
 .markdown-body table {
@@ -106,7 +164,7 @@ body {
 .footer {
   border-top: 1px solid var(--border);
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--footer-bg);
 }
 
 .footer__inner {

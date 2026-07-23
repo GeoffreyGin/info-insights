@@ -1,3 +1,59 @@
+// ===== 深色/浅色模式切换 =====
+function initTheme() {
+  const STORAGE_KEY = "nba-insight-theme";
+  const toggle = document.getElementById("themeToggle");
+  const icon = document.getElementById("themeIcon");
+
+  // 读取已保存的主题，否则跟随系统偏好
+  function getPreferredTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "dark" || saved === "light") {
+      return saved;
+    }
+    // 跟随系统偏好
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+    return "light";
+  }
+
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      if (icon) icon.textContent = "☀️";
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      if (icon) icon.textContent = "🌙";
+    }
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+  }
+
+  // 初始化
+  applyTheme(getPreferredTheme());
+
+  // 绑定点击事件
+  if (toggle) {
+    toggle.addEventListener("click", toggleTheme);
+  }
+
+  // 监听系统主题变化（当用户未手动设置时生效）
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      // 仅在用户从未手动切换过时跟随系统
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    });
+  }
+}
+
+// ===== 状态与渲染 =====
 function setStatus(message, type = "info") {
   const status = document.getElementById("status");
   if (!message) {
@@ -83,6 +139,7 @@ async function loadReport(reportPath) {
 }
 
 function wireUi() {
+  initTheme();
   loadReport("report.md");
 }
 

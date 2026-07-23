@@ -1,82 +1,82 @@
 [
   {
     "id": 1,
-    "name": "CnEVPost",
-    "platform": "cnevpost",
+    "name": "ESPN NBA",
+    "platform": "espn-nba",
     "source": "rss",
-    "url": "https://cnevpost.com/feed/",
+    "url": "https://www.espn.com/espn/rss/nba/news",
     "signal_level": "S"
   },
   {
     "id": 2,
-    "name": "CarNewsChina",
-    "platform": "carnewschina",
+    "name": "Bleacher Report NBA",
+    "platform": "bleacherreport",
     "source": "rss",
-    "url": "https://carnewschina.com/feed/",
+    "url": "https://bleacherreport.com/nba/feed",
     "signal_level": "S"
   },
   {
     "id": 3,
-    "name": "Pandaily",
-    "platform": "pandaily",
+    "name": "Yahoo Sports NBA",
+    "platform": "yahoo-nba",
     "source": "rss",
-    "url": "https://pandaily.com/feed/",
+    "url": "https://sports.yahoo.com/nba/rss",
     "signal_level": "A"
   },
   {
     "id": 4,
-    "name": "Electrek",
-    "platform": "electrek",
+    "name": "CBS Sports NBA",
+    "platform": "cbssports-nba",
     "source": "rss",
-    "url": "https://electrek.co/feed/",
+    "url": "https://www.cbssports.com/nba/rss",
     "signal_level": "A"
   },
   {
     "id": 5,
-    "name": "InsideEVs",
-    "platform": "insideevs",
+    "name": "HoopsRumors",
+    "platform": "hoopsrumors",
     "source": "rss",
-    "url": "https://insideevs.com/rss/articles/all/",
+    "url": "https://www.hoopsrumors.com/feed",
     "signal_level": "A"
   },
   {
     "id": 6,
-    "name": "CleanTechnica",
-    "platform": "cleantechnica",
+    "name": "SLAM Online",
+    "platform": "slamonline",
     "source": "rss",
-    "url": "https://cleantechnica.com/feed/",
+    "url": "https://www.slamonline.com/feed/",
     "signal_level": "A"
   },
   {
     "id": 7,
-    "name": "The Driven",
-    "platform": "thedriven",
+    "name": "NBA.com News",
+    "platform": "nba-com",
     "source": "rss",
-    "url": "https://thedriven.io/feed/",
+    "url": "https://www.nba.com/rss",
     "signal_level": "B"
   },
   {
     "id": 8,
-    "name": "The Verge Transportation",
-    "platform": "theverge-transport",
+    "name": "The Ringer NBA",
+    "platform": "theringer-nba",
     "source": "rss",
-    "url": "https://www.theverge.com/rss/transportation/index.xml",
+    "url": "https://www.theringer.com/nba/rss/index.xml",
     "signal_level": "B"
   },
   {
     "id": 9,
-    "name": "TechCrunch Transportation",
-    "platform": "techcrunch-transport",
+    "name": "Sports Illustrated NBA",
+    "platform": "si-nba",
     "source": "rss",
-    "url": "https://techcrunch.com/category/transportation/feed/",
+    "url": "https://www.si.com/nba/rss",
     "signal_level": "B"
   },
   {
     "id": 10,
-    "name": "Charged EVs",
-    "platform": "chargedevs",
+    "name": "The Athletic NBA",
+    "platform": "theathletic-nba",
     "source": "rss",
-    "url": "https://chargedevs.com/feed/",
+    "url": "https://theathletic.com/nba/feed/",
     "signal_level": "B"
   }
 ]
